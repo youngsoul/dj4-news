@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  django-web:
+    build: .
+    container_name: 'news-web'
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+
+  django-db:
+      image: postgres:14.2
+      container_name: 'pg14-news-db'
+      labels:
+        application: 'pg14-news-db'
+      volumes:
+        - pg_news_data:/var/lib/postgresql/data/
+      command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all -c max_connections=200
+      env_file:
+        - ./.env.docker
+      ports:
+        - "5432:5432"
+      expose:
+        - "5432"
+
+volumes:
+  pg_news_data:
