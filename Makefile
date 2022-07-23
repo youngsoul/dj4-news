@@ -13,6 +13,10 @@ show-ids:
 # Build docker containers
 build: build-web build-db
 
+clean-build:
+	@docker-compose -f docker-compose.yml build --no-cache
+
+
 build-web:
 	@docker-compose -f docker-compose.yml build django-web
 
@@ -33,7 +37,7 @@ run-web:
 	@docker-compose -f docker-compose.yml up django-web
 
 run-db:
-	@docker-compose -f docker-compose.yml up db
+	@docker-compose -f docker-compose.yml up django-db
 
 # restart containers with a stop then run
 restart: stop run
