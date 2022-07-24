@@ -113,10 +113,10 @@ superuser:
 	-docker exec -it $(web-id) python manage.py createsuperuser
 
 deploy-checklist:
-	@docker-compose exec web python manage.py check --deploy
+	@docker exec -t $(web-id) python manage.py check --deploy
 
 generate-secret-key:
-	@docker-compose exec web python -c 'import secrets; print(secrets.token_urlsafe(38))'
+	@docker exec -t $(web-id) python -c 'import secrets; print(secrets.token_urlsafe(38))'
 
 # Heroku command
 heroku-login:
